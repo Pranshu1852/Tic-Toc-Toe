@@ -14,11 +14,18 @@
     <script src="./script.js"></script>
 </head>
 <body>
+    <div class="boxsize__popup">
+        <div class="boxsize__container">
+            <label for="boxsize">Enter the BoxSize:</label>
+            <input id="boxsize" type="number" value="3">
+            <button class="btn btn--start">Start Game</button>
+        </div>
+    </div>
     <div class="gamepage">
         <h1 class="gamepage__heading">Tic Toc Toe</h1>
         <h2 class="gamepage__player"></h2>
         <div class="gamepage__box">
-            <button value="0"></button>
+            <!-- <button value="0"></button>
             <button value="1"></button>
             <button value="2"></button>
             <button value="3"></button>
@@ -26,9 +33,12 @@
             <button value="5"></button>
             <button value="6"></button>
             <button value="7"></button>
-            <button value="8"></button>
+            <button value="8"></button> -->
         </div>
-        <button class="gamepage__btn--reset">Reset</button>
+        <div class="gamepage__buttons">
+            <button class="btn gamepage__changeboxsize">Change BoxSize</button>
+            <button class="btn gamepage__btn--reset">Reset</button>
+        </div>
     </div>
 </body>
 </html>

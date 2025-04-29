@@ -184,7 +184,6 @@ const resultChecker:resultChecker={
 class TicToc{
     gameArray:string[];
     playerx:boolean;
-    winnigArray: number[][];
     isWin:boolean;
     isTie:boolean;
     noMoves:number;
@@ -192,14 +191,15 @@ class TicToc{
 
     constructor(){
         this.initializeEventlistner();
-        this.gameArray=['','','','','','','','',''];
-        this.winnigArray=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
         this.playerx=true;
         this.displayPlayer();
         this.isWin=false;
         this.isTie=false;
         this.noMoves=0;
-        this.boxsize=3;
+        this.boxsize=+(document.getElementById('boxsize') as HTMLInputElement).value;
+        this.gameArray=new Array(this.boxsize**2).fill('');
+        this.generateGrid(0);
+        console.log(this.gameArray)
     }
 
     initializeEventlistner(){
@@ -216,10 +216,52 @@ class TicToc{
             }
         });
 
-        const resetButton=document.getElementsByClassName('gamepage__btn--reset')[0]! as HTMLButtonElement;
-        resetButton.addEventListener('click',(event:Event)=>{
-            this.resetGame();
+        (document.getElementsByClassName('btn--start')[0] as HTMLButtonElement).addEventListener('click',(event: Event)=>{
+            const previousBoxsize=this.boxsize;
+            this.boxsize=+(document.getElementById('boxsize') as HTMLInputElement).value;
+            this.gameArray=new Array(this.boxsize**2).fill('');
+            console.log(this.gameArray);
+            this.generateGrid(previousBoxsize);
+            this.closePopup(document.getElementsByClassName('boxsize__popup')[0] as HTMLDivElement)
+        });
+
+
+        (document.getElementsByClassName('gamepage__buttons')[0] as HTMLDivElement).addEventListener('click',(event: Event)=>{
+            if((event.target as HTMLElement).className==='btn gamepage__changeboxsize'){
+                this.openPopup(document.getElementsByClassName('boxsize__popup')[0] as HTMLDivElement);
+            }
+            else if((event.target as HTMLElement).className==='btn gamepage__btn--reset'){
+                this.resetGame();
+            }
         })
+    }
+
+    generateGrid(previousBoxsize:number){
+        const gridConatiner=document.getElementsByClassName('gamepage__box')[0] as HTMLDivElement;
+        gridConatiner.style.setProperty('grid-template-columns', 'repeat(' + this.boxsize + ', 1fr)')
+        gridConatiner.style.setProperty('grid-template-rows', 'repeat(' + this.boxsize + ', 150px)')
+
+        if(previousBoxsize<this.boxsize){
+            this.addButton(previousBoxsize,gridConatiner);
+        }
+        else{
+            this.removeButton(previousBoxsize,gridConatiner);
+        }
+    }
+
+    addButton(previousBoxsize:number,gridConatiner:HTMLDivElement){
+        for(let i=previousBoxsize**2;i<this.boxsize**2;i++){
+            const newBtn=document.createElement('button');
+            newBtn.value=i.toString();
+            gridConatiner.appendChild(newBtn);
+        }
+    }
+
+    removeButton(previousBoxsize:number,gridConatiner:HTMLDivElement){
+        const noOfRemovebtn=(previousBoxsize**2)-(this.boxsize**2);
+        for(let i=0;i<noOfRemovebtn;i++){
+            gridConatiner.lastChild?.remove();
+        }
     }
 
     handlebuttonClick(element: HTMLButtonElement){
@@ -267,7 +309,7 @@ class TicToc{
     }
 
     resetGame(){
-        this.gameArray=['','','','','','','','',''];
+        this.gameArray.fill('');
         this.isWin=false;
         this.isTie=false;
         this.displayPlayer();
@@ -278,6 +320,16 @@ class TicToc{
             btn.textContent='';
             btn.classList.remove('x','o');
         })
+    }
+
+    openPopup(element: HTMLElement) {
+        element.style.display = "flex";
+        document.body.style.overflow = "hidden";
+    }
+
+    closePopup(element: HTMLElement) {
+        element.style.display = "none";
+        document.body.style.overflow = "";
     }
 }
 

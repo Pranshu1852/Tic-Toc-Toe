@@ -153,11 +153,45 @@ a {
   text-decoration: none;
 }
 
+.boxsize__popup {
+  display: flex;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.1019607843);
+  z-index: 1;
+}
+.boxsize__popup .boxsize__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  gap: 25px;
+  padding: 3rem 3rem;
+  background-color: #0C0C0C;
+  border-radius: 15px;
+}
+.boxsize__popup .boxsize__container label {
+  font-weight: 600;
+  font-size: 2rem;
+}
+.boxsize__popup .boxsize__container input {
+  width: 25%;
+  height: 40px;
+  font-size: 20px;
+  padding-left: 10px;
+  border: none;
+  border-radius: 7px;
+}
+
 .gamepage {
   display: flex;
   flex-direction: column;
   gap: 50px;
-  height: 100vh;
+  min-height: 100vh;
   width: 90%;
   max-width: 700px;
   align-items: center;
@@ -191,13 +225,24 @@ a {
 .gamepage .gamepage__box .o {
   color: #2778ec;
 }
-.gamepage .gamepage__btn--reset {
+
+.gamepage__buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.btn {
   color: #ffffff;
   background-color: #5B913B;
   padding: 1.2rem 2rem;
   font-size: 1rem;
   border: none;
   border-radius: 5px;
+}
+
+.gamepage__changeboxsize {
+  padding: 1.2rem 1rem;
 }
 
 /*# sourceMappingURL=style.css.map */

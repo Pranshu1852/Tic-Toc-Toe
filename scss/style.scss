@@ -156,11 +156,48 @@ a{
     text-decoration: none;
 }
 
+.boxsize__popup{
+    display: flex;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $color-white10;
+    z-index: 1;
+
+    .boxsize__container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+        gap: 25px;
+        padding: 3rem 3rem;
+        background-color: $color-black2;
+        border-radius: 15px;
+
+        label{
+            font-weight: 600;
+            font-size: 2rem;
+        }
+
+        input{
+            width: 25%;
+            height: 40px;
+            font-size: 20px;
+            padding-left: 10px;
+            border: none;
+            border-radius: 7px;
+        }
+    }
+}
+
 .gamepage{
     display: flex;
     flex-direction: column;
     gap: 50px;
-    height: 100vh;
+    min-height: 100vh;
     width: 90%;
     max-width: 700px;
     align-items: center;
@@ -199,13 +236,23 @@ a{
             color: #2778ec;
         }
     }
+}
 
-    .gamepage__btn--reset{
-        color: $color-white;
-        background-color: $color-green;
-        padding: 1.2rem 2rem;
-        font-size: 1rem;
-        border: none;
-        border-radius: 5px;
-    }
+.gamepage__buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.btn{
+    color: $color-white;
+    background-color: $color-green;
+    padding: 1.2rem 2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+}
+
+.gamepage__changeboxsize{
+    padding: 1.2rem 1rem;
 }

@@ -136,14 +136,15 @@ const resultChecker = {
 class TicToc {
     constructor() {
         this.initializeEventlistner();
-        this.gameArray = ['', '', '', '', '', '', '', '', ''];
-        this.winnigArray = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
         this.playerx = true;
         this.displayPlayer();
         this.isWin = false;
         this.isTie = false;
         this.noMoves = 0;
-        this.boxsize = 3;
+        this.boxsize = +document.getElementById('boxsize').value;
+        this.gameArray = new Array(this.boxsize ** 2).fill('');
+        this.generateGrid(0);
+        console.log(this.gameArray);
     }
     initializeEventlistner() {
         document.getElementsByClassName('gamepage__box')[0].addEventListener('click', (event) => {
@@ -158,10 +159,47 @@ class TicToc {
                 }
             }
         });
-        const resetButton = document.getElementsByClassName('gamepage__btn--reset')[0];
-        resetButton.addEventListener('click', (event) => {
-            this.resetGame();
+        document.getElementsByClassName('btn--start')[0].addEventListener('click', (event) => {
+            const previousBoxsize = this.boxsize;
+            this.boxsize = +document.getElementById('boxsize').value;
+            this.gameArray = new Array(this.boxsize ** 2).fill('');
+            console.log(this.gameArray);
+            this.generateGrid(previousBoxsize);
+            this.closePopup(document.getElementsByClassName('boxsize__popup')[0]);
         });
+        document.getElementsByClassName('gamepage__buttons')[0].addEventListener('click', (event) => {
+            if (event.target.className === 'btn gamepage__changeboxsize') {
+                this.openPopup(document.getElementsByClassName('boxsize__popup')[0]);
+            }
+            else if (event.target.className === 'btn gamepage__btn--reset') {
+                this.resetGame();
+            }
+        });
+    }
+    generateGrid(previousBoxsize) {
+        const gridConatiner = document.getElementsByClassName('gamepage__box')[0];
+        gridConatiner.style.setProperty('grid-template-columns', 'repeat(' + this.boxsize + ', 1fr)');
+        gridConatiner.style.setProperty('grid-template-rows', 'repeat(' + this.boxsize + ', 150px)');
+        if (previousBoxsize < this.boxsize) {
+            this.addButton(previousBoxsize, gridConatiner);
+        }
+        else {
+            this.removeButton(previousBoxsize, gridConatiner);
+        }
+    }
+    addButton(previousBoxsize, gridConatiner) {
+        for (let i = previousBoxsize ** 2; i < this.boxsize ** 2; i++) {
+            const newBtn = document.createElement('button');
+            newBtn.value = i.toString();
+            gridConatiner.appendChild(newBtn);
+        }
+    }
+    removeButton(previousBoxsize, gridConatiner) {
+        var _a;
+        const noOfRemovebtn = (previousBoxsize ** 2) - (this.boxsize ** 2);
+        for (let i = 0; i < noOfRemovebtn; i++) {
+            (_a = gridConatiner.lastChild) === null || _a === void 0 ? void 0 : _a.remove();
+        }
     }
     handlebuttonClick(element) {
         this.noMoves++;
@@ -202,7 +240,7 @@ class TicToc {
         });
     }
     resetGame() {
-        this.gameArray = ['', '', '', '', '', '', '', '', ''];
+        this.gameArray.fill('');
         this.isWin = false;
         this.isTie = false;
         this.displayPlayer();
@@ -213,6 +251,14 @@ class TicToc {
             btn.textContent = '';
             btn.classList.remove('x', 'o');
         });
+    }
+    openPopup(element) {
+        element.style.display = "flex";
+        document.body.style.overflow = "hidden";
+    }
+    closePopup(element) {
+        element.style.display = "none";
+        document.body.style.overflow = "";
     }
 }
 document.addEventListener('DOMContentLoaded', (event) => {
